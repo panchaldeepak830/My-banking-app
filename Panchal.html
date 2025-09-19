@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Banking Dashboard</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 50px;
+            color: white;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            color: #333;
+            margin: 20px auto;
+        }
+
+        .dashboard-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            color: #333;
+            margin: 20px auto;
+            display: none;
+        }
+
+        input {
+            padding: 12px;
+            margin: 10px 0;
+            width: 80%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+
+        select {
+            padding: 12px;
+            width: 80%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Section -->
+        <div class="login-box" id="loginSection">
+            <h1>🏦 Welcome to Banking Portal</h1>
+            <p>Secure login for account management</p>
+            
+            <h2>Login to Continue</h2>
+            <form id="loginForm">
+                <input type="text" placeholder="Enter Username" id="username" required>
+                <br>
+                <input type="password" placeholder="Enter Password" id="password" required>
+                <br>
+                <button type="submit">🔐 Login</button>
+            </form>
+
+            <div style="margin-top: 20px; font-size: 14px; color: #666;">
+                <p><strong>Demo Accounts:</strong></p>
+                <p>admin / password</p>
+                <p>rohan / rohan123</p>
+                <p>priya / priya456</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Section (Initially Hidden) -->
+        <div class="dashboard-box" id="dashboard">
+            <h1>🎯 Dashboard</h1>
+            <p>Welcome, <span id="userName">User</span>! You have successfully logged in.</p>
+
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h3>📊 Your Loan Details</h3>
+                <table>
+                    <tr>
+                        <th>Loan Type</th>
+                        <th>Amount</th>
+                        <th>Interest Rate</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>Home Loan</td>
+                        <td>₹25,00,000</td>
+                        <td>8.4%</td>
+                        <td>Active</td>
+                    </tr>
+                    <tr>
+                        <td>Car Loan</td>
+                        <td>₹5,00,000</td>
+                        <td>9.1%</td>
+                        <td>Active</td>
+                    </tr>
+                    <tr>
+                        <td>Personal Loan</td>
+                        <td>₹2,00,000</td>
+                        <td>12.5%</td>
+                        <td>Closed</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h3>📝 Foreclosure Application</h3>
+                <form onsubmit="applyForeclosure(event)">
+                    <select id="loanSelect" required>
+                        <option value="">Select Loan to Foreclose</option>
+                        <option value="home">Home Loan</option>
+                        <option value="car">Car Loan</option>
+                    </select>
+                    <br><br>
+                    <button type="submit">✅ Apply for Foreclosure</button>
+                </form>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button onclick="logout()" style="background: #dc3545;">🚪 Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User database
+        const users = {
+            "admin": "password",
+            "rohan": "rohan123",
+            "priya": "priya456"
+        };
+
+        // Show dashboard function
+        function showDashboard(username) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('userName').textContent = username;
+        }
+
+        // Logout function
+        function logout() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            alert('Logged out successfully!');
+        }
+
+        // Foreclosure application function
+        function applyForeclosure(event) {
+            event.preventDefault();
+            const loanType = document.getElementById('loanSelect').value;
+            if (!loanType) {
+                alert('Please select a loan type!');
+                return;
+            }
+            alert('Foreclosure application for ' + loanType + ' loan submitted successfully!\nOur team will contact you within 24 hours.');
+            document.getElementById('loanSelect').value = '';
+        }
+
+        // Login form handling - YAHAN ERROR THA, AB FIX HAI
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // YEH LINE FIX HAI - users[username] check karega
+            if (users[username] && users[username] === password) {
+                alert('Login Successful! Welcome ' + username + '.');
+                showDashboard(username);
+            } else {
+                alert('Invalid credentials! Please try again.\n\nDemo accounts:\nadmin / password\nrohan / rohan123\npriya / priya456');
+            }
+        });
+    </script>
+</body>
+</html>
